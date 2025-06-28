@@ -14,7 +14,7 @@ import {
   Check
 } from 'lucide-react'
 
-const API_BASE = import.meta.env.URL_API_VITE;
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function Payments({ user, token, onUserUpdate }) {
   const navigate = useNavigate()
