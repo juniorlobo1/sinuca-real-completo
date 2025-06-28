@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 
-const API_BASE = 'http://localhost:5001'
+const API_BASE = import.meta.env.URL_API_VITE;
 
 export default function Login({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true)
