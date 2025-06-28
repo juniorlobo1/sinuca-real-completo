@@ -32,8 +32,9 @@ database_path = os.path.join(os.path.dirname(__file__), 'database', 'sinuca_real
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{database_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Inicializar extensões
-CORS(app, origins=["*"])  # Permitir todas as origens para desenvolvimento
+# Inicializar extensões - CORS corrigido para usar variável de ambiente
+cors_origin = os.getenv('CORS_ORIGIN', 'https://junior-lobo.vercel.app')
+CORS(app, origins=[cors_origin])  # Usar variável de ambiente para CORS
 jwt = JWTManager(app)
 db.init_app(app)
 
@@ -105,70 +106,69 @@ with app.app_context():
                 'creator_id': 3,
                 'amount': 25.00,
                 'platform_fee': 2.50,
-                'total_prize': 47.50,
-                'status': 'open'
-            },
-            {
-                'creator_id': 2,
-                'amount': 50.00,
-                'platform_fee': 5.00,
-                'total_prize': 95.00,
-                'status': 'open'
-            },
-            {
-                'creator_id': 1,
-                'amount': 10.00,
-                'platform_fee': 1.00,
-                'total_prize': 19.00,
-                'status': 'open'
-            }
-        ]
-        
-        for bet_data in bets_data:
-            bet = Bet(**bet_data)
-            db.session.add(bet)
-        
-        db.session.commit()
-        print("✅ Dados iniciais criados com sucesso!")
+'total_prize': 47.50,
+'status': 'open'
+},
+{
+'creator_id': 2,
+'amount': 50.00,
+'platform_fee': 5.00,
+'total_prize': 95.00,
+'status': 'open'
+},
+{
+'creator_id': 1,
+'amount': 10.00,
+'platform_fee': 1.00,
+'total_prize': 19.00,
+'status': 'open'
+}
+]
+
+for bet_data in bets_data:
+bet = Bet(**bet_data)
+db.session.add(bet)
+
+db.session.commit()
+print("✅ Dados iniciais criados com sucesso!")
 
 # Rota de health check
 @app.route('/api/health')
 def health_check():
-    return {
-        'status': 'healthy',
-        'service': 'Sinuca Real API',
-        'version': '2.0.0',
-        'database': 'connected'
-    }
+return {
+'status': 'healthy',
+'service': 'Sinuca Real API',
+'version': '2.0.0',
+'database': 'connected'
+}
 
 # Rota para servir frontend
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    static_folder_path = app.static_folder
-    if static_folder_path is None:
-        return "Static folder not configured", 404
+static_folder_path = app.static_folder
+if static_folder_path is None:
+return "Static folder not configured", 404
 
-    if path != "" and os.path.exists(os.path.join(static_folder_path, path)):
-        return send_from_directory(static_folder_path, path)
-    else:
-        index_path = os.path.join(static_folder_path, 'index.html')
-        if os.path.exists(index_path):
-            return send_from_directory(static_folder_path, 'index.html')
-        else:
-            return {
-                'message': 'Sinuca Real API',
-                'status': 'running',
-                'endpoints': [
-                    '/api/health',
-                    '/api/auth/login',
-                    '/api/auth/register',
-                    '/api/users/profile',
-                    '/api/betting/bets',
-                    '/api/games/create'
-                ]
-            }
+if path != "" and os.path.exists(os.path.join(static_folder_path, path)):
+return send_from_directory(static_folder_path, path)
+else:
+index_path = os.path.join(static_folder_path, 'index.html')
+if os.path.exists(index_path):
+return send_from_directory(static_folder_path, 'index.html')
+else:
+return {
+'message': 'Sinuca Real API',
+'status': 'running',
+'endpoints': [
+'/api/health',
+'/api/auth/login',
+'/api/auth/register',
+'/api/users/profile',
+'/api/betting/bets',
+'/api/games/create'
+]
+}
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
+app.run(host='0.0.0.0', port=5000, debug=Trueção CORS para usar variável de ambiente)
