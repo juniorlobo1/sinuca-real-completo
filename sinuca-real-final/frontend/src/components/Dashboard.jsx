@@ -1,66 +1,66 @@
-import { useState, useEffect } from 'react'
+ão Jogar para /game/1import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { 
-  User, 
-  Wallet, 
-  Trophy, 
-  Play, 
-  Settings, 
-  LogOut,
-  Plus,
-  Users,
-  Target,
-  Star
+import {
+User,
+Wallet,
+Trophy,
+Play,
+Settings,
+LogOut,
+Plus,
+Users,
+Target,
+Star
 } from 'lucide-react'
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function Dashboard({ user, token, onLogout, onUserUpdate }) {
-  const navigate = useNavigate()
-  const [bets, setBets] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [stats, setStats] = useState({
-    totalGames: 0,
-    winRate: 0,
-    totalWinnings: 0,
-    currentStreak: 0
-  })
+const navigate = useNavigate()
+const [bets, setBets] = useState([])
+const [loading, setLoading] = useState(true)
+const [stats, setStats] = useState({
+totalGames: 0,
+winRate: 0,
+totalWinnings: 0,
+currentStreak: 0
+})
 
-  useEffect(() => {
-    loadDashboardData()
-  }, [])
+useEffect(() => {
+loadDashboardData()
+}, [])
 
-  const loadDashboardData = async () => {
-    try {
-      // Carregar apostas disponíveis
-      const betsResponse = await fetch(`${API_BASE}/api/betting/bets`)
-      if (betsResponse.ok) {
-        const betsData = await betsResponse.json()
-        setBets(betsData.bets || [])
-      }
+const loadDashboardData = async () => {
+try {
+// Carregar apostas disponíveis
+const betsResponse = await fetch(`${API_BASE}/api/betting/bets`)
+if (betsResponse.ok) {
+const betsData = await betsResponse.json()
+setBets(betsData.bets || [])
+}
 
-      // Simular estatísticas
-      setStats({
-        totalGames: user.games_played || 45,
-        winRate: user.win_rate || 71.1,
-        totalWinnings: user.total_winnings || 1850.00,
-        currentStreak: 5
-      })
-    } catch (error) {
-      console.error('Erro ao carregar dados:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+// Simular estatísticas
+setStats({
+totalGames: user.games_played || 45,
+winRate: user.win_rate || 71.1,
+totalWinnings: user.total_winnings || 1850.00,
+currentStreak: 5
+})
+} catch (error) {
+console.error('Erro ao carregar dados:', error)
+} finally {
+setLoading(false)
+}
+}
 
-  const getRankColor = (rank) => {
-    const colors = {
-      'Bronze': 'text-orange-400',
-      'Prata': 'text-gray-400',
-      'Ouro': 'text-yellow-400',
-      'Platina': 'text-blue-400',
-      'Diamante': 'text-purple-400'
+const getRankColor = (rank) => {
+const colors = {
+'Bronze': 'text-orange-400',
+'Prata': 'text-gray-400',
+'Ouro': 'text-yellow-400',
+'Platina': 'text-blue-400',
+'Diamante': 'text-purple-400'
     }
     return colors[rank] || 'text-gray-400'
   }
@@ -186,7 +186,7 @@ export default function Dashboard({ user, token, onLogout, onUserUpdate }) {
         className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
       >
         <button
-          onClick={() => navigate('/game')}
+          onClick={() => navigate('/game/1')}
           className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-6 text-white hover:from-green-600 hover:to-emerald-700 transition-all group"
         >
           <div className="flex items-center justify-between">
