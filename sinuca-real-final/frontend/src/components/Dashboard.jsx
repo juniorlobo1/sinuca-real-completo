@@ -14,7 +14,7 @@ import {
   Star
 } from 'lucide-react'
 
-const API_BASE = 'http://localhost:5001'
+const API_BASE = import.meta.env.URL_API_VITE;
 
 export default function Dashboard({ user, token, onLogout, onUserUpdate }) {
   const navigate = useNavigate()
